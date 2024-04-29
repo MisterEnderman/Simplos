@@ -1,0 +1,23 @@
+window.levels = {
+
+  1: { words: ["close", "winter", "meaning"], translations: ["סגור", "חורף", "משמעות"], guessedWords: new Set(), completed: false },
+  2: { words: ["difficult", "car", "today"], translations: ["קשה", "מכונית", "היום"], guessedWords: new Set(), completed: false },
+  3: { words: ["mind", "grade", "door"], translations: ["נפש", "ציון", "דלת"], guessedWords: new Set(), completed: false },
+  4: { words: ["close", "winter", "meaning", "difficult", "car", "today", "mind", "grade", "door"], translations: ["סגור", "חורף", "משמעות", "קשה", "מכונית", "היום", "נפש", "ציון", "דלת"], guessedWords: new Set(), completed: false },
+  5: { words: ["wrong", "exercise", "open"], translations: ["לא נכון", "תרגיל", "פתוח"], guessedWords: new Set(), completed: false },
+  6: { words: ["me", "return", "forget"], translations: ["אני", "לחזור", "לשכוח"], guessedWords: new Set(), completed: false },
+  7: { words: ["glad", "end", "better"], translations: ["שמח", "סוף", "טוב יותר"], guessedWords: new Set(), completed: false },
+  8: { words: ["close", "winter", "meaning", "difficult", "car", "today", "mind", "grade", "door", "wrong", "exercise", "open", "me", "return", "forget", "glad", "end", "better"], translations: ["סגור", "חורף", "משמעות", "קשה", "מכונית", "היום", "נפש", "ציון", "דלת", "לא נכון", "תרגיל", "פתוח", "אני", "לחזור", "לשכוח", "שמח", "סוף", "טוב יותר"], guessedWords: new Set(), completed: false },
+  9: { words: ["book", "telephone", "side"], translations: ["ספר", "טלפון", "צד"], guessedWords: new Set(), completed: false },
+  10: { words: ["wear", "face", "people"], translations: ["ללבוש", "פנים", "אנשים"], guessedWords: new Set(), completed: false },
+  11: { words: ["black", "glass", "this", "run"], translations: ["שחור", "זכוכית", "זה", "לרוץ"], guessedWords: new Set(), completed: false },
+  12: { words: ["close", "winter", "meaning", "difficult", "car", "today", "mind", "grade", "door", "wrong", "exercise", "open", "me", "return", "forget", "glad", "end", "better", "book", "telephone", "side", "wear", "face", "people", "black", "glass", "this", "run"], translations: ["סגור", "חורף", "משמעות", "קשה", "מכונית", "היום", "נפש", "ציון", "דלת", "לא נכון", "תרגיל", "פתוח", "אני", "לחזור", "לשכוח", "שמח", "סוף", "טוב יותר", "ספר", "טלפון", "צד", "ללבוש", "פנים", "אנשים", "שחור", "זכוכית", "זה", "לרוץ"], guessedWords: new Set(), completed: false },
+  13: { words: ["almost", "month", "away", "make", "song"], translations: ["כמעט", "חודש", "רחוק", "לעשות", "שיר"], guessedWords: new Set(), completed: false },
+  14: { words: ["flower", "speak", "piece", "game", "expensive", "fire"], translations: ["פרח", "לדבר", "חתיכה", "משחק", "יקר", "אש"], guessedWords: new Set(), completed: false },
+  15: { words: ["country", "sit", "meet"], translations: ["מדינה", "לשבת", "לפגוש"], guessedWords: new Set(), completed: false },
+  16: { words: ["close", "winter", "meaning", "difficult", "car", "today", "mind", "grade", "door", "wrong", "exercise", "open", "me", "return", "forget", "glad", "end", "better", "book", "telephone", "side", "wear", "face", "people", "black", "glass", "this", "run", "almost", "month", "away", "make", "song", "flower", "speak", "piece", "game", "expensive", "fire", "country", "sit", "meet"], translations: ["סגור", "חורף", "משמעות", "קשה", "מכונית", "היום", "נפש", "ציון", "דלת", "לא נכון", "תרגיל", "פתוח", "אני", "לחזור", "לשכוח", "שמח", "סוף", "טוב יותר", "ספר", "טלפון", "צד", "ללבוש", "פנים", "אנשים", "שחור", "זכוכית", "זה", "לרוץ", "כמעט", "חודש", "רחוק", "לעשות", "שיר", "פרח", "לדבר", "חתיכה", "משחק", "יקר", "אש", "מדינה", "לשבת", "לפגוש"], guessedWords: new Set(), completed: false },
+  17: { words: ["סגור", "חורף", "משמעות", "קשה", "מכונית", "היום", "נפש", "ציון", "דלת", "לא נכון"], translations: ["close", "winter", "meaning", "difficult", "car", "today", "mind", "grade", "door", "wrong"], guessedWords: new Set(), completed: false },
+  18: { words: ["תרגיל", "פתוח", "אני", "לחזור", "לשכוח", "שמח", "סוף", "טוב יותר", "ספר", "טלפון"], translations: ["exercise", "open", "me", "return", "forget", "glad", "end", "better", "book", "telephone"], guessedWords: new Set(), completed: false },
+  19: { words: ["צד", "ללבוש", "פנים", "אנשים", "שחור", "זכוכית", "זה", "לרוץ", "כמעט", "חודש"], translations: ["side", "wear", "face", "people", "black", "glass", "this", "run", "almost", "month"], guessedWords: new Set(), completed: false },
+  20: { words: ["רחוק", "לעשות", "שיר", "פרח", "לדבר", "חתיכה", "משחק", "יקר", "אש", "מדינה", "לשבת", "לפגוש"], translations: ["away", "make", "song", "flower", "speak", "piece", "game", "expensive", "fire", "country", "sit", "meet"], guessedWords: new Set(), completed: false }
+};

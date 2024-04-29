@@ -3,68 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="vocab1.js"></script>
+<script src="vocab2.js"></script>
+<script src="vocab3.js"></script>
+
     <title>Simplos</title>
-
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
-  import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js';
-  import { getDatabase, ref, set, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js';
-
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDe7vrefJFYvQGn_DyfMa-7JaAPyHI9_Fc",
-    authDomain: "simplos.firebaseapp.com",
-    projectId: "simplos",
-    storageBucket: "simplos.appspot.com",
-    messagingSenderId: "586154859351",
-    appId: "1:586154859351:web:fbd44da43f9d14c8e5bc12",
-    measurementId: "G-8ZDQQVD36T"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const db = getDatabase(app);
-
-  function registerPlayer() {
-    const playerName = document.getElementById('playerNameInput').value.trim();
-    if (playerName !== '') {
-      const playerRef = ref(db, 'players/' + playerName);
-      set(playerRef, {
-        name: playerName,
-        online: true
-      });
-      playerRef.onDisconnect().remove();
-    }
-  }
-
-  function listenForPlayers() {
-    const playersRef = ref(db, 'players');
-    onValue(playersRef, (snapshot) => {
-      const players = snapshot.val();
-      const playersList = document.getElementById('playersList');
-      playersList.innerHTML = '';
-      for (let key in players) {
-        const li = document.createElement('li');
-        li.textContent = players[key].name;
-        playersList.appendChild(li);
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    listenForPlayers();
-  });
-</script>
-
-
-
-
-
-
-
-
-
 
     <style>
         body {
@@ -666,17 +609,32 @@ position: relative;
     overflow: hidden;
 }
 
-#line1, #line2 {
-    transform: translateX(0%);
+
+
+
+/* Style for the dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-#line3, #line4 {
-    transform: translateX(100%); /* Start offscreen to the right */
+
+
+.dropdown-content {
+    display: none; /* Hide dropdown content initially */
+    position: absolute;
+    min-width: 160px; /* Set a minimum width */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
+.dropdown:hover .dropdown-content {
+    display: block; /* Show dropdown content on hover */
+}
 
-
-
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* Light grey background on hover */
+}
 
        
     </style>
@@ -754,20 +712,28 @@ position: relative;
         <button class="menu-button" onclick="toggleOverlay()">Menu</button>
     </div>
 
-        </div>
+    
 <div class="overlay" id="overlay">
         <div class="overlay-content">
-
-            <button class="settings-button" onclick="newGame()">New Game</button>
-            <button class="settings-button" onclick="continueGame()">Continue Game</button>  
+ <div class="overlay-container1" id="line1">
+                <button class="settings-button" onclick="newGame()">New Game</button>
+<button class="settings-button" onclick="continueGame()">Continue Game</button>  
             <button class="settings-button" onclick="openSettings()">Settings</button>
             <button class="settings-button" onclick="showAbout()">About</button>
-<div id="lobby">
-  <input type="text" id="playerNameInput" placeholder="Enter your name" />
-  <button onclick="registerPlayer()">Join Game</button>
-  <h3>Players Online:</h3>
-  <ul id="playersList"></ul>
+<div class="dropdown">
+    <button id="dropdownMenuButton" class="settings-button">Practice</button>
+    <div id="dropdownContent" class="dropdown-content">
+        <button id="vocab1Button" class="settings-button" onclick="selectOption('Alpha', 'vocab1Button')">Foods</a>
+        <button id="vocab2Button" class="settings-button" onclick="selectOption('Beta', 'vocab2Button')">Band1/1</a>
+        <button id="vocab3Button" class="settings-button" onclick="selectOption('Gamma', 'vocab3Button')">Band1/2</a>
+    </div>
 </div>
+
+
+ 
+
+
+
 
             <span class="close-button" onclick="toggleOverlay()">&times;</span>
         </div>
@@ -784,7 +750,55 @@ position: relative;
 
    <script>
 
+function selectOption(value, vocabId) {
+    document.getElementById('dropdownMenuButton').textContent = value;
+    someFunctionAssociatedWithVocabButtons(vocabId); // Trigger vocab related function
+}
 
+// Assuming someFunctionAssociatedWithVocabButtons exists
+function someFunctionAssociatedWithVocabButtons(vocabId) {
+    console.log('Function related to', vocabId, 'triggered.');
+}
+
+// No need for the previous event listener to hide dropdowns on window click since dropdown now works with hover.
+
+
+// Event listener to toggle the dropdown content
+document.getElementById('dropdownMenuButton').addEventListener('click', function() {
+  var content = document.getElementById('dropdownContent');
+  if (content.style.display === 'block') {
+    content.style.display = 'none';
+  } else {
+    content.style.display = 'block';
+  }
+});
+
+
+
+
+
+document.getElementById('vocab1Button').addEventListener('click', function() {
+    loadScript('vocab1.js');
+
+});
+
+document.getElementById('vocab2Button').addEventListener('click', function() {
+    loadScript('vocab2.js');
+
+});
+
+document.getElementById('vocab3Button').addEventListener('click', function() {
+    loadScript('vocab3.js');
+
+});
+
+
+
+function loadScript(scriptName) {
+    var script = document.createElement('script');
+    script.src = scriptName;
+    document.body.appendChild(script);
+}
 
 
 function proceedToNextLevel() {
@@ -1300,29 +1314,6 @@ function updateLevelAccess() {
 
   let currentLevel = 1;
     let mistakesMade = false;
-let levels = {
-        1: { words: ["milk", "egg", "cheese"], translations: ["חלב", "ביצה", "גבינה"], guessedWords: new Set(), completed: false },
-        2: { words: ["bread", "butter", "jam"], translations: ["לחם", "חמאה", "ריבה"], guessedWords: new Set(), completed: false },
-        3: { words: ["apple", "banana", "cherry"], translations: ["תפוח", "בננה", "דובדבן"], guessedWords: new Set(), completed: false },
-        4: { words: ["carrot", "potato", "onion"], translations: ["גזר", "תפוּאָה אֲדָמָה", "בצל"], guessedWords: new Set(), completed: false },
-        5: { words: ["cucumber", "tomato", "lettuce"], translations: ["מלפפון", "עגבניה", "חסה"], guessedWords: new Set(), completed: false },
-        6: { words: ["meat", "chicken", "fish"], translations: ["בשר", "עוף", "דג"], guessedWords: new Set(), completed: false },
-        7: { words: ["pasta", "rice", "noodles"], translations: ["פסטה", "אורז", "נודלס"], guessedWords: new Set(), completed: false },
-        8: { words: ["soup", "salad", "dessert"], translations: ["מרק", "סלט", "קינוח"], guessedWords: new Set(), completed: false },
-        9: { words: ["pepper", "garlic", "mushroom"], translations: ["פלפל", "שום", "פטרייה"], guessedWords: new Set(), completed: false },
-        10: { words: ["coffee", "tea", "juice"], translations: ["קפה", "תה", "מיץ"], guessedWords: new Set(), completed: false },
-11: { words: ["olive", "peanut", "almond"], translations: ["זית", "בוטנים", "שקד"], guessedWords: new Set(), completed: false },
-12: { words: ["honey", "sugar", "syrup"], translations: ["דבש", "סוכר", "סירופ"], guessedWords: new Set(), completed: false },
-13: { words: ["mango", "pineapple", "coconut"], translations: ["מנגו", "אננס", "קוקוס"], guessedWords: new Set(), completed: false },
-14: { words: ["beef", "pork", "lamb"], translations: ["בקר", "חזיר", "כבש"], guessedWords: new Set(), completed: false },
-15: { words: ["turkey", "duck", "goose"], translations: ["תרנגול הודו", "ברווז", "אווז"], guessedWords: new Set(), completed: false },
-16: { words: ["spinach", "kale", "arugula"], translations: ["תרד", "כרוב תירס", "רוקט"], guessedWords: new Set(), completed: false },
-17: { words: ["squash", "pumpkin", "zucchini"], translations: ["קישוא", "דלעת", "קישואית"], guessedWords: new Set(), completed: false },
-18: { words: ["sesame", "sunflower seed", "flaxseed"], translations: ["שומשום", "גרעין חמניה", "פשתן"], guessedWords: new Set(), completed: false },
-19: { words: ["wine", "beer", "cider"], translations: ["יין", "בירה", "סיידר"], guessedWords: new Set(), completed: false },
-20: { words: ["cheesecake", "brownie", "cupcake"], translations: ["עוגת גבינה", "בראוני", "קאפקייק"], guessedWords: new Set(), completed: false }
-
-    };
 
 </script>
 
