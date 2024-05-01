@@ -1,1321 +1,1313 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="vocab1.js"></script>
-<script src="vocab2.js"></script>
-<script src="vocab3.js"></script>
-
-    <title>Simplos</title>
-
-    <style>
-        body {
-            font-family: 'Oxygen', sans-serif;
-            background-image: url('bg1.webp');
-            background-size: cover;
-transition: background-image 2s ease-in-out;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow-x: hidden;
-padding: 0;
-max-height: 100vh; /* Viewport height, ensures it doesn't exceed the screen size */
-    max-width: 100vw;  /* Viewport width, ensures it doesn't exceed the screen width */
-    overflow: hidden; 
- flex-direction: column;
-    justify-content: space-between; /* Adjusts spacing evenly */
-    align-items: center;
-        }
-
-*, *::before, *::after {
-    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
-}
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.2); /* Optional: adjust or remove depending on desired transparency */
-    background-image: url('menu-bg.webp'); /* Set your image here */
-    background-size: cover; /* Cover the entire area of the overlay */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure the overlay is above other elements */
-}
-
-
- .overlay.active {
-            display: flex;
-        }
-
-
-.overlay-content {
-    background-color: rgba(255, 255, 255, 1); /* Adjust opacity to desired level of transparency */
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.overlay-content {
-    background-color: rgba(255, 255, 255, 0.3); /* Adjust opacity to desired level of transparency */
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.overlay-content button {
-    margin: 10px;
-}
-
-.close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #555;
-            cursor: pointer;
-        }
-
-
-       .container {
-    position: absolute;
-    width: 100%; /* Ensures the container spans the full width */
-    bottom: 10px; /* Positions the container at the bottom */
-    left: 0; /* Aligns the container to the left edge */
-    display: flex;
-    justify-content: center; /* Centers content horizontally */
-    z-index: 2000; /* Ensures it's on top of other content */
-}
-
-   .menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: transparent; /* Temporarily for testing */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    z-index: 100;
-    visibility: visible; /* Temporarily make it always visible for testing */
-    opacity: 1; /* Temporarily set opacity to full for testing */
-    background-image: url('menu-bg.webp'); /* Confirm the image path is correct */
-    background-size: cover; /* Cover the entire area of the menu */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-}
-
-
-
-        .settings-button {
-            padding: 0.8em 1.6em;
-            background-color: #00008B;
-            color: white;
-            border: 2px solid white;
-            border-radius: 10px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            width: 200px;
-
-        }
-
-.menu-button {
-    width: 80px; /* Keep the specified width */
-    height: 40px; /* Keep the specified height */
-    font-size: 0.8em; /* Maintain the font size */
-    background-color: #00008B; /* Use the same dark blue as the settings button */
-    color: white; /* Text color */
-    border: 2px solid white; /* Add a solid white border like the settings button */
-    border-radius: 10px; /* Rounded corners */
-    cursor: pointer; /* Cursor changes to pointer on hover */
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transitions for transform and background color */
-    position: absolute; /* Absolute positioning */
-    bottom: 10px; /* Positioned at the bottom */
-    left: 50%; /* Centered horizontally */
-    transform: translateX(-50%); /* Adjust horizontally to center the button */
-    transform-origin: center bottom; /* Ensures scaling originates from the bottom center */
-}
-
-.menu-button:hover {
-color: #00008B;
-    background-color: rgba(255, 255, 255, 0.5); /* Lighter blue on hover, similar effect to settings button */
-border-color: #00008B;
-    transform: translateX(-50%) scale(1.1) !important; /* Keep it centered and scale, enforce with !important */
-}
-
-.menu-button:active {
-    transform: translateX(-50%) scale(0.9) !important; /* Keep it centered and scale down when clicked, enforce with !important */
-}
-
-
-
-        .settings-button:hover {
-            transform: scale(1.1);
-        }
-
-        .hidden {
-            visibility: hidden;
-            opacity: 0;
-        }
-
-        .visible {
-            visibility: visible;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-.game-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around; /* Adjusts spacing evenly */
-    align-items: center; /* Centers items horizontally */
-    padding: 20px;
-    width: 100%;
-    box-sizing: border-box; /* Includes padding in width and height */
-}
-
-.hidden {
-    display: none;
-}
-
-.level-title-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.level-title, .word-display {
-    max-width: calc(100% - 40px); /* Adjust based on container padding or margins */
-    width: 100%; /* Ensures they take full available width */
-    margin: 20px auto; /* Centers the element and adds vertical spacing */
-}
-
-  .level-title {
-font-family: 'Georgia', serif;
-    font-size: 2.5em;
-    font-weight: bold;
-    color: white;
-    background: #00008B;
-    padding: 15px 30px;
-    border-radius: 10px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
-    text-align: center;
-    margin: 20px auto;
-    max-width: 90%; /* Limit maximum width */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-}
-
-.word-display-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.word-display {
-    font-family: 'Georgia', serif;
-    font-size: 2.5em;
-    font-weight: bold;
-    color: #00008B;
-    background: white;
-    padding: 15px 30px;
-    border-radius: 10px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
-    text-align: center;
-    margin: 20px auto;
-    max-width: 90%; /* Limit maximum width */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-}
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        .fade-in {
-            animation: fadeIn 2s ease forwards;
-        }
-
-        .fade-out {
-            animation: fadeOut 2s ease forwards;
-        }
-
-        .content-fade-in {
-            animation: fadeIn 2s ease forwards;
-            animation-delay: 2s;
-        }
-
-        .diamond-button {
-            margin: 0.5em;
-            padding: 0.8em 1.6em;
-            background-color: #696969;
-            color: black;
-            
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            font-size: 1.2em;
-            cursor: pointer;
-        }
-
-.choice-button {
-    font-family: 'Georgia', serif; /* Match font of level title */
-    font-size: 1.5em; /* Sizable, readable text */
-    color: white; /* Text color as in level title */
-    background-color: #00008B; /* Blue background similar to level title */
-        border-radius: 10px; /* Rounded corners */
-    padding: 15px 30px; /* Padding for better text spacing */
-    
-    max-width: 90%; /* Responsiveness: limit max width */
-    text-align: center; /* Center text */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transitions for interactions */
-}
-
-
-        .choice-button:hover, .diamond-button:hover {
-            transform: scale(1.3);
-            background-color: white;
-            color: #00008B;
-            border-color: white;
-        }
-
-        .diamond-button.active, .choice-button {
-            background-color: #00008B;
-            color: white;
-            border: 2px #00008B;
-            opacity: 1;
-        }
-
-        .progress-bar-container {
-            width: 150%;
-            max-width: 500px;
-            height: 25px;
-            background-color: #ddd;
-            border: 3px solid #00008B;
-            border-radius: 10px;
-            margin: 1em auto;
-            overflow: hidden;
-        }
-
-        .invisible {
-            display: none;
-        }
-
-        @keyframes blink {
-            0%, 100% { background-color: #FFD700; color: #000; }
-            50% { background-color: #00008B; color: #FFF; }
-        }
-
-        .blink {
-            animation: blink 1s infinite;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: white;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .buttons-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0.5em;
-            justify-content: center;
-            transition: margin-top 5.5s ease;
-        }
-
-        .buttons-container.hidden {
-            display: none;
-            opacity: 0;
-            margin-top: 0;
-        }
-
-        .buttons-container.fade-in {
-            display: flex;
-            animation: fadeIn 3s ease forwards;
-            margin-top: 10px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .correct-answer {
-            background-color: white;
-            color: #00008B;
-            border-color: #00008B;
-        }
-
-        .pulsate {
-            animation: pulse 1s ease-out 6;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                background-color: gold;
-            }
-            50% {
-                transform: scale(1.8);
-                background-color: #FFD700;
-            }
-            100% {
-                transform: scale(1);
-                background-color: #00008B;
-            }
-        }
-
-        .incorrect-answer {
-            background-color: #B22222;
-            color: white;
-            border-color: white;
-        }
-
-        @media (max-width: 768px), (max-width: 480px) {
-            .level-title, .word-display {
-                font-size: 1.5em;
-            }
-            .choice-button, .diamond-button {
-                font-size: 0.8em;
-                padding: 1m 1.5em;
-            }
-
-
-            .progress-bar-container {
-                width: 100%;
-                height: 18px;
-            }
-            .game-screen {
-                padding: 10px;
-            }
-            .buttons-container {
-                gap: 0.3em;
-            }
-        }
-
-.background-container .background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    transition: opacity 2s ease-in-out;
-    z-index: -1;
-}
-
-        @media print {
-            body {
-                background: none;
-                color: #000;
-            }
-            .choice-button, .diamond-button, .progress-bar-container, .buttons-container {
-                display: none;
-            }
-        }
-#transition-overlay {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.choice-words-container {
-    display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow the buttons to wrap within the container */
-    justify-content: center; /* Center the buttons horizontally */
-    gap: 2px; /* Space between buttons */
-    margin: 5px; /* Outer spacing for the container */
-    padding: 0.2em; /* Padding around the content inside the container */
-    background-color: #696969; /* Background color from diamond-button */
-    border: 2px solid transparent; /* Border settings from diamond-button */
-    border-radius: 10px; /* Rounded corners from diamond-button */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow from diamond-button */
-    transition: all 0.3s ease; /* Smooth transition effect from diamond-button */
-}
-
-@media (max-width: 480px) {
-    .choice-words-container {
-        gap: 10px; /* Increase space between buttons */
-        margin: 20px 10px; /* Increase outer margin to separate from other elements */
-        padding: 1em; /* Increase padding inside the container for larger touch targets */
-    }
-
-    .word-display {
-        margin-bottom: 20px; /* Increase space between the word display and choice words container */
-    }
-}
-
-#journey-bar-container {
-    position: relative;
-    height: 25px; /* Set to match the original progress bar */
-    background-color: white; /* Light grey for contrast */
-    overflow: visible; /* Allow diamond markers to display properly */
-}
-
-#journey-bar {
-    height: 100%;
-    background-color: #00008B;
-    width: 0%; /* Start with no progress */
-    transition: width 0.5s ease;
-}
-
-.progress-bar.milestone {
-    background-color: grey;  // Gold color for milestones
-    height: 60px;  // Slightly larger to create a 'bulge' effect
-    transition: height 0.5s ease;
-}
-
-.diamond-marker {
-    position: absolute;
-    bottom: -7px; /* Align with the bottom of the journey bar */
-    width: 30px; /* Size of the diamond */
-    height: 30px;
-    background-color: grey; /* Transparent until reached */
-    border: 3px solid blue; /* Solid blue border to match the button colors */
-    transform: rotate(45deg); /* Rotate square to form diamond */
-    transform-origin: center;
-    transition: all 0.5s ease;
-}
-
-@media (max-width: 768px) {
-    .diamond-marker {
-bottom: 0px; /* Align with the bottom of the journey bar */
-        width: 20px; /* Smaller width for mobile */
-        height: 20px; /* Smaller height for mobile */
-        border-width: 2px; /* Optionally thinner border for smaller size */
-    }
-}
-
-.diamond-marker.reached {
-    background-color: gold; /* Change to gold when reached */
-    border-color: gold; /* Hide border when active */
-}
-
-.diamond-marker:not(.reached) {
-    background-color: grey; /* Keep transparent if not reached */
-    border-color: #00008B; /* Blue border visible */
-}
-
-#journey-bar-container {
-margin-top: 40px;    
-position: relative;
-    height: 25px;  // Ensure there's enough space around the bar for the markers
-    background-color: #ddd;  // Light background to see markers clearly
-    overflow: visible;  // Allows markers to show outside the container bounds
-}
-
-.diamond-marker:hover {
-    background-color: #4CAF50;  // Changes color on hover
-    cursor: pointer;
-}
-
-
-
-.milestone-marker.reached {
-    background-color: #4CAF50; /* change color to indicate reached milestones */
-    height: 50px; /* larger to enhance the bulge effect */
-    width: 15px;
-    transform: translateY(75%);
-}
-
-
-#hebrew-options {
-    display: flex;                /* Continue using flexbox */
-    justify-content: space-between; /* Change to space-between to spread buttons out */
-    align-items: center;          /* Keep buttons aligned vertically */
-    width: 100%;                  /* Set width to 100% of its parent */
-    margin: 20px 0;               /* Only vertical margin, no horizontal margin needed */
-    padding: 5 0px;              /* Padding on the sides to ensure content does not touch edges */
-    border-radius: 10px;           /* Rounded corners for aesthetic */
-
-}
-#story-overlay {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('story-bg1.webp');
-    background-size: cover;
-    background-position: center;
-    z-index: 1500;
-    background-color: rgba(0, 0, 0, 1);
-    opacity: 0; /* Start as invisible */
-    visibility: hidden; /* Not visible initially */
-    transition: opacity 0.5s, visibility 0.5s; /* Smooth transition for opacity and visibility */
-}
-
-#story-overlay.active {
-    opacity: 1; /* Fully visible when active */
-    visibility: visible; /* Make visible when active */
-}
-
-
-.overlay-content h1, .overlay-content p {
-    color: white; /* Adjust based on your background */
-}
-
-.skip-button {
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.line-container {
-    transition: transform 0.5s ease-in-out;
-    position: absolute;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-}
-
-
-
-
-/* Style for the dropdown container */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-
-
-.dropdown-content {
-    display: none; /* Hide dropdown content initially */
-    position: absolute;
-    min-width: 160px; /* Set a minimum width */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block; /* Show dropdown content on hover */
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1; /* Light grey background on hover */
-}
-
-       
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="vocab1.js"></script>
+	<script src="vocab2.js"></script>
+	<script src="vocab3.js"></script>
+	
+	<title>Simplos</title>
+	
+	<style>
+		body {
+			font-family: 'Oxygen', sans-serif;
+			background-image: url('bg1.webp');
+			background-size: cover;
+			transition: background-image 2s ease-in-out;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			overflow-x: hidden;
+			padding: 0;
+			max-height: 100vh; /* Viewport height, ensures it doesn't exceed the screen size */
+			max-width: 100vw; /* Viewport width, ensures it doesn't exceed the screen width */
+			overflow: hidden;
+			flex-direction: column;
+			justify-content: space-between; /* Adjusts spacing evenly */
+			align-items: center;
+		}
+		
+		*, *::before, *::after {
+			box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+		}
+		
+		.overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(255, 255, 255, 0.2); /* Optional: adjust or remove depending on desired transparency */
+			background-image: url('menu-bg.webp'); /* Set your image here */
+			background-size: cover; /* Cover the entire area of the overlay */
+			background-position: center; /* Center the background image */
+			background-repeat: no-repeat; /* Do not repeat the image */
+			display: none;
+			justify-content: center;
+			align-items: center;
+			z-index: 1000; /* Ensure the overlay is above other elements */
+		}
+		
+		
+		.overlay.active {
+			display: flex;
+		}
+		
+		
+		.overlay-content {
+			background-color: rgba(255, 255, 255, 1); /* Adjust opacity to desired level of transparency */
+			padding: 20px;
+			border-radius: 10px;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		
+		.overlay-content {
+			background-color: rgba(255, 255, 255, 0.3); /* Adjust opacity to desired level of transparency */
+			padding: 20px;
+			border-radius: 10px;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.overlay-content button {
+			margin: 10px;
+		}
+		
+		.close-button {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			color: #555;
+			cursor: pointer;
+		}
+		
+		
+		.container {
+			position: absolute;
+			width: 100%; /* Ensures the container spans the full width */
+			bottom: 10px; /* Positions the container at the bottom */
+			left: 0; /* Aligns the container to the left edge */
+			display: flex;
+			justify-content: center; /* Centers content horizontally */
+			z-index: 2000; /* Ensures it's on top of other content */
+		}
+		
+		.menu-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			background-color: transparent; /* Temporarily for testing */
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+			z-index: 100;
+			visibility: visible; /* Temporarily make it always visible for testing */
+			opacity: 1; /* Temporarily set opacity to full for testing */
+			background-image: url('menu-bg.webp'); /* Confirm the image path is correct */
+			background-size: cover; /* Cover the entire area of the menu */
+			background-position: center; /* Center the background image */
+			background-repeat: no-repeat; /* Do not repeat the image */
+		}
+		
+		
+		.settings-button {
+			padding: 0.8em 1.6em;
+			background-color: #00008B;
+			color: white;
+			border: 2px solid white;
+			border-radius: 10px;
+			font-size: 1.2em;
+			cursor: pointer;
+			transition: transform 0.3s ease;
+			width: 200px;
+			
+		}
+		
+		.menu-button {
+			width: 80px; /* Keep the specified width */
+			height: 40px; /* Keep the specified height */
+			font-size: 0.8em; /* Maintain the font size */
+			background-color: #00008B; /* Use the same dark blue as the settings button */
+			color: white; /* Text color */
+			border: 2px solid white; /* Add a solid white border like the settings button */
+			border-radius: 10px; /* Rounded corners */
+			cursor: pointer; /* Cursor changes to pointer on hover */
+			transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transitions for transform and background color */
+			position: absolute; /* Absolute positioning */
+			bottom: 10px; /* Positioned at the bottom */
+			left: 50%; /* Centered horizontally */
+			transform: translateX(-50%); /* Adjust horizontally to center the button */
+			transform-origin: center bottom; /* Ensures scaling originates from the bottom center */
+		}
+		
+		.menu-button:hover {
+			color: #00008B;
+			background-color: rgba(255, 255, 255, 0.5); /* Lighter blue on hover, similar effect to settings button */
+			border-color: #00008B;
+			transform: translateX(-50%) scale(1.1) !important; /* Keep it centered and scale, enforce with !important */
+		}
+		
+		.menu-button:active {
+			transform: translateX(-50%) scale(0.9) !important; /* Keep it centered and scale down when clicked, enforce with !important */
+		}
+		
+		
+		.settings-button:hover {
+			transform: scale(1.1);
+		}
+		
+		.hidden {
+			visibility: hidden;
+			opacity: 0;
+		}
+		
+		.visible {
+			visibility: visible;
+			opacity: 1;
+			transition: opacity 0.3s ease;
+		}
+		
+		.game-screen {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around; /* Adjusts spacing evenly */
+			align-items: center; /* Centers items horizontally */
+			padding: 20px;
+			width: 100%;
+			box-sizing: border-box; /* Includes padding in width and height */
+		}
+		
+		.hidden {
+			display: none;
+		}
+		
+		.level-title-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+		
+		.level-title, .word-display {
+			max-width: calc(100% - 40px); /* Adjust based on container padding or margins */
+			width: 100%; /* Ensures they take full available width */
+			margin: 20px auto; /* Centers the element and adds vertical spacing */
+		}
+		
+		.level-title {
+			font-family: 'Georgia', serif;
+			font-size: 2.5em;
+			font-weight: bold;
+			color: white;
+			background: #00008B;
+			padding: 15px 30px;
+			border-radius: 10px;
+			box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
+			text-align: center;
+			margin: 20px auto;
+			max-width: 90%; /* Limit maximum width */
+			overflow: hidden; /* Hide overflow text */
+			text-overflow: ellipsis; /* Show ellipsis for overflow text */
+		}
+		
+		.word-display-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100%;
+		}
+		
+		.word-display {
+			font-family: 'Georgia', serif;
+			font-size: 2.5em;
+			font-weight: bold;
+			color: #00008B;
+			background: white;
+			padding: 15px 30px;
+			border-radius: 10px;
+			box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
+			text-align: center;
+			margin: 20px auto;
+			max-width: 90%; /* Limit maximum width */
+			overflow: hidden; /* Hide overflow text */
+			text-overflow: ellipsis; /* Show ellipsis for overflow text */
+		}
+		
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+		
+		@keyframes fadeOut {
+			from {
+				opacity: 1;
+			}
+			to {
+				opacity: 0;
+			}
+		}
+		
+		.fade-in {
+			animation: fadeIn 2s ease forwards;
+		}
+		
+		.fade-out {
+			animation: fadeOut 2s ease forwards;
+		}
+		
+		.content-fade-in {
+			animation: fadeIn 2s ease forwards;
+			animation-delay: 2s;
+		}
+		
+		.diamond-button {
+			margin: 0.5em;
+			padding: 0.8em 1.6em;
+			background-color: #696969;
+			color: black;
+			
+			border-radius: 10px;
+			transition: all 0.3s ease;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			font-size: 1.2em;
+			cursor: pointer;
+		}
+		
+		.choice-button {
+			font-family: 'Georgia', serif; /* Match font of level title */
+			font-size: 1.5em; /* Sizable, readable text */
+			color: white; /* Text color as in level title */
+			background-color: #00008B; /* Blue background similar to level title */
+			border-radius: 10px; /* Rounded corners */
+			padding: 15px 30px; /* Padding for better text spacing */
+			
+			max-width: 90%; /* Responsiveness: limit max width */
+			text-align: center; /* Center text */
+			cursor: pointer; /* Pointer cursor on hover */
+			transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transitions for interactions */
+		}
+		
+		
+		.choice-button:hover, .diamond-button:hover {
+			transform: scale(1.3);
+			background-color: white;
+			color: #00008B;
+			border-color: white;
+		}
+		
+		.diamond-button.active, .choice-button {
+			background-color: #00008B;
+			color: white;
+			border: 2px #00008B;
+			opacity: 1;
+		}
+		
+		.progress-bar-container {
+			width: 150%;
+			max-width: 500px;
+			height: 25px;
+			background-color: #ddd;
+			border: 3px solid #00008B;
+			border-radius: 10px;
+			margin: 1em auto;
+			overflow: hidden;
+		}
+		
+		.invisible {
+			display: none;
+		}
+		
+		@keyframes blink {
+			0%, 100% {
+				background-color: #FFD700;
+				color: #000;
+			}
+			50% {
+				background-color: #00008B;
+				color: #FFF;
+			}
+		}
+		
+		.blink {
+			animation: blink 1s infinite;
+		}
+		
+		.progress-bar {
+			height: 100%;
+			background-color: white;
+			width: 0%;
+			transition: width 0.5s ease;
+		}
+		
+		.buttons-container {
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			gap: 0.5em;
+			justify-content: center;
+			transition: margin-top 5.5s ease;
+		}
+		
+		.buttons-container.hidden {
+			display: none;
+			opacity: 0;
+			margin-top: 0;
+		}
+		
+		.buttons-container.fade-in {
+			display: flex;
+			animation: fadeIn 3s ease forwards;
+			margin-top: 10px;
+		}
+		
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+		
+		.correct-answer {
+			background-color: white;
+			color: #00008B;
+			border-color: #00008B;
+		}
+		
+		.pulsate {
+			animation: pulse 1s ease-out 6;
+		}
+		
+		@keyframes pulse {
+			0% {
+				transform: scale(1);
+				background-color: gold;
+			}
+			50% {
+				transform: scale(1.8);
+				background-color: #FFD700;
+			}
+			100% {
+				transform: scale(1);
+				background-color: #00008B;
+			}
+		}
+		
+		.incorrect-answer {
+			background-color: #B22222;
+			color: white;
+			border-color: white;
+		}
+		
+		@media (max-width: 768px), (max-width: 480px) {
+			.level-title, .word-display {
+				font-size: 1.5em;
+			}
+			
+			.choice-button, .diamond-button {
+				font-size: 0.8em;
+				padding: 1 m 1.5em;
+			}
+			
+			
+			.progress-bar-container {
+				width: 100%;
+				height: 18px;
+			}
+			
+			.game-screen {
+				padding: 10px;
+			}
+			
+			.buttons-container {
+				gap: 0.3em;
+			}
+		}
+		
+		.background-container .background {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+			background-position: center;
+			transition: opacity 2s ease-in-out;
+			z-index: -1;
+		}
+		
+		@media print {
+			body {
+				background: none;
+				color: #000;
+			}
+			
+			.choice-button, .diamond-button, .progress-bar-container, .buttons-container {
+				display: none;
+			}
+		}
+		
+		#transition-overlay {
+			opacity: 0;
+			transition: opacity 0.5s ease;
+		}
+		
+		.choice-words-container {
+			display: flex; /* Use flexbox for layout */
+			flex-wrap: wrap; /* Allow the buttons to wrap within the container */
+			justify-content: center; /* Center the buttons horizontally */
+			gap: 2px; /* Space between buttons */
+			margin: 5px; /* Outer spacing for the container */
+			padding: 0.2em; /* Padding around the content inside the container */
+			background-color: #696969; /* Background color from diamond-button */
+			border: 2px solid transparent; /* Border settings from diamond-button */
+			border-radius: 10px; /* Rounded corners from diamond-button */
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow from diamond-button */
+			transition: all 0.3s ease; /* Smooth transition effect from diamond-button */
+		}
+		
+		@media (max-width: 480px) {
+			.choice-words-container {
+				gap: 10px; /* Increase space between buttons */
+				margin: 20px 10px; /* Increase outer margin to separate from other elements */
+				padding: 1em; /* Increase padding inside the container for larger touch targets */
+			}
+			
+			.word-display {
+				margin-bottom: 20px; /* Increase space between the word display and choice words container */
+			}
+		}
+		
+		#journey-bar-container {
+			position: relative;
+			height: 25px; /* Set to match the original progress bar */
+			background-color: white; /* Light grey for contrast */
+			overflow: visible; /* Allow diamond markers to display properly */
+		}
+		
+		#journey-bar {
+			height: 100%;
+			background-color: #00008B;
+			width: 0%; /* Start with no progress */
+			transition: width 0.5s ease;
+		}
+		
+		.progress-bar.milestone {
+			background-color: grey;
+		/ / Gold color for milestones height: 60 px;
+		/ / Slightly larger to create a 'bulge' effect transition: height 0.5 s ease;
+		}
+		
+		.diamond-marker {
+			position: absolute;
+			bottom: -7px; /* Align with the bottom of the journey bar */
+			width: 30px; /* Size of the diamond */
+			height: 30px;
+			background-color: grey; /* Transparent until reached */
+			border: 3px solid blue; /* Solid blue border to match the button colors */
+			transform: rotate(45deg); /* Rotate square to form diamond */
+			transform-origin: center;
+			transition: all 0.5s ease;
+		}
+		
+		@media (max-width: 768px) {
+			.diamond-marker {
+				bottom: 0px; /* Align with the bottom of the journey bar */
+				width: 20px; /* Smaller width for mobile */
+				height: 20px; /* Smaller height for mobile */
+				border-width: 2px; /* Optionally thinner border for smaller size */
+			}
+		}
+		
+		.diamond-marker.reached {
+			background-color: gold; /* Change to gold when reached */
+			border-color: gold; /* Hide border when active */
+		}
+		
+		.diamond-marker:not(.reached) {
+			background-color: grey; /* Keep transparent if not reached */
+			border-color: #00008B; /* Blue border visible */
+		}
+		
+		#journey-bar-container {
+			margin-top: 40px;
+			position: relative;
+			height: 25px;
+		/ / Ensure there 's enough space around the bar for the markers background-color: #ddd;
+		/ / Light background to see markers clearly overflow: visible;
+		/ / Allows markers to show outside the container bounds
+		}
+		
+		.diamond-marker:hover {
+			background-color: #4CAF50;
+		/ / Changes color on hover cursor: pointer;
+		}
+		
+		
+		.milestone-marker.reached {
+			background-color: #4CAF50; /* change color to indicate reached milestones */
+			height: 50px; /* larger to enhance the bulge effect */
+			width: 15px;
+			transform: translateY(75%);
+		}
+		
+		
+		#hebrew-options {
+			display: flex; /* Continue using flexbox */
+			justify-content: space-between; /* Change to space-between to spread buttons out */
+			align-items: center; /* Keep buttons aligned vertically */
+			width: 100%; /* Set width to 100% of its parent */
+			margin: 20px 0; /* Only vertical margin, no horizontal margin needed */
+			padding: 5 0px; /* Padding on the sides to ensure content does not touch edges */
+			border-radius: 10px; /* Rounded corners for aesthetic */
+			
+		}
+		
+		#story-overlay {
+			display: flex;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: url('story-bg1.webp');
+			background-size: cover;
+			background-position: center;
+			z-index: 1500;
+			background-color: rgba(0, 0, 0, 1);
+			opacity: 0; /* Start as invisible */
+			visibility: hidden; /* Not visible initially */
+			transition: opacity 0.5s, visibility 0.5s; /* Smooth transition for opacity and visibility */
+		}
+		
+		#story-overlay.active {
+			opacity: 1; /* Fully visible when active */
+			visibility: visible; /* Make visible when active */
+		}
+		
+		
+		.overlay-content h1, .overlay-content p {
+			color: white; /* Adjust based on your background */
+		}
+		
+		.skip-button {
+			padding: 10px;
+			margin-top: 20px;
+			background-color: #444;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		
+		.line-container {
+			transition: transform 0.5s ease-in-out;
+			position: absolute;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			overflow: hidden;
+		}
+		
+		
+		/* Style for the dropdown container */
+		.dropdown {
+			position: relative;
+			display: inline-block;
+		}
+		
+		
+		.dropdown-content {
+			display: none; /* Hide dropdown content initially */
+			position: absolute;
+			min-width: 160px; /* Set a minimum width */
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+			z-index: 1;
+		}
+		
+		.dropdown:hover .dropdown-content {
+			display: block; /* Show dropdown content on hover */
+		}
+		
+		.dropdown-content a:hover {
+			background-color: #f1f1f1; /* Light grey background on hover */
+		}
+	
+	
+	</style>
 </head>
-
 
 
 <body>
 
 
 </div>
-    <div class="content-container">
-        <div class="game-screen">
-            <div class="level-title" id="level-title">The Valley</div>
-            <div class="word-display" id="english-word"></div>
-            <div id="hebrew-options">
-                <!-- Hebrew choice buttons will be generated here -->
-            </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
-            <div class="buttons-container1" id="line1">
-                <button class="diamond-button active" onclick="startLevel(1)">1</button>
-                <button class="diamond-button inactive" onclick="startLevel(2)">2</button>
-                <button class="diamond-button inactive" onclick="startLevel(3)">3</button>
-                <button class="diamond-button inactive" onclick="startLevel(4)">4</button>
-                <button class="diamond-button inactive" onclick="startLevel(5)">5</button>
-            </div>
-            <div class="buttons-container2" id="line2">
-		<button class="diamond-button inactive" onclick="startLevel(6)">6</button>
-		<button class="diamond-button inactive" onclick="startLevel(7)">7</button>
-                <button class="diamond-button inactive" onclick="startLevel(8)">8</button>
-                <button class="diamond-button inactive" onclick="startLevel(9)">9</button>
-                <button class="diamond-button inactive" onclick="startLevel(10)">10</button>
-            </div>
-            <div class="buttons-container3" hidden id="line3">
-                <button class="diamond-button inactive" onclick="startLevel(11)">11</button>
-                <button class="diamond-button inactive" onclick="startLevel(12)">12</button>
-                <button class="diamond-button inactive" onclick="startLevel(13)">13</button>
-                <button class="diamond-button inactive" onclick="startLevel(14)">14</button>
-                <button class="diamond-button inactive" onclick="startLevel(15)">15</button>
-            </div>
-            <div class="buttons-container4" hidden id="line4">
-		<button class="diamond-button inactive" onclick="startLevel(16)">16</button>
-		<button class="diamond-button inactive" onclick="startLevel(17)">17</button>
-                <button class="diamond-button inactive" onclick="startLevel(18)">18</button>
-                <button class="diamond-button inactive" onclick="startLevel(19)">19</button>
-                <button class="diamond-button inactive" onclick="startLevel(20)">20</button>
-            </div>
-
-<div class="progress-bar-container" id="journey-bar-container">
-    <div class="progress-bar" id="journey-bar"></div>
-    <!-- Diamond markers for milestones -->
-    <div class="diamond-marker" data-level="5"></div>
-    <div class="diamond-marker" data-level="10"></div>
-    <div class="diamond-marker" data-level="15"></div>
-    <div class="diamond-marker" data-level="20"></div>
-</div>
-
-<div id="story-overlay" class="overlay">
-    <div class="overlay-content">
-        <h1>Story Time!</h1>
-        <p id="story-text">Here's the captivating story that unfolds your game's next chapter...</p>
-        <button class="skip-button">Skip Story</button>
-    </div>
-</div>
-
-<div class="background-container">
-    <div id="bg1" class="background" style="background-image: url('bg1.webp');"></div>
-    <div id="bg2" class="background" style="background-image: url('bg2.webp'); display: none;"></div>
-<div id="bg3" class="background" style="background-image: url('bg3.webp'); display: none;"></div>        
-
-
-<div class="container">
-        <button class="menu-button" onclick="toggleOverlay()">Menu</button>
-    </div>
-
-    
-<div class="overlay" id="overlay">
-        <div class="overlay-content">
- <div class="overlay-container1" id="line1">
-                <button class="settings-button" onclick="newGame()">New Game</button>
-<button class="settings-button" onclick="continueGame()">Continue Game</button>  
-            <button class="settings-button" onclick="openSettings()">Settings</button>
-            <button class="settings-button" onclick="showAbout()">About</button>
-<div class="dropdown">
-    <button id="dropdownMenuButton" class="settings-button">Practice</button>
-    <div id="dropdownContent" class="dropdown-content">
-        <button id="vocab1Button" class="settings-button" onclick="selectOption('Alpha', 'vocab1Button')">Foods</a>
-        <button id="vocab2Button" class="settings-button" onclick="selectOption('Beta', 'vocab2Button')">Band1/1</a>
-        <button id="vocab3Button" class="settings-button" onclick="selectOption('Gamma', 'vocab3Button')">Band1/2</a>
-    </div>
-</div>
-
-
- 
-
-
-
-
-            <span class="close-button" onclick="toggleOverlay()">&times;</span>
-        </div>
-    </div>
-
-
-    
-
-<div id="transition-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 2000;"></div>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-
-
-   <script>
-
-function selectOption(value, vocabId) {
-    document.getElementById('dropdownMenuButton').textContent = value;
-    someFunctionAssociatedWithVocabButtons(vocabId); // Trigger vocab related function
-}
-
-// Assuming someFunctionAssociatedWithVocabButtons exists
-function someFunctionAssociatedWithVocabButtons(vocabId) {
-    console.log('Function related to', vocabId, 'triggered.');
-}
-
-// No need for the previous event listener to hide dropdowns on window click since dropdown now works with hover.
-
-
-// Event listener to toggle the dropdown content
-document.getElementById('dropdownMenuButton').addEventListener('click', function() {
-  var content = document.getElementById('dropdownContent');
-  if (content.style.display === 'block') {
-    content.style.display = 'none';
-  } else {
-    content.style.display = 'block';
-  }
-});
-
-
-
-
-
-document.getElementById('vocab1Button').addEventListener('click', function() {
-    loadScript('vocab1.js');
-
-});
-
-document.getElementById('vocab2Button').addEventListener('click', function() {
-    loadScript('vocab2.js');
-
-});
-
-document.getElementById('vocab3Button').addEventListener('click', function() {
-    loadScript('vocab3.js');
-
-});
-
-
-
-function loadScript(scriptName) {
-    var script = document.createElement('script');
-    script.src = scriptName;
-    document.body.appendChild(script);
-}
-
-
-function proceedToNextLevel() {
-    var nextLevel = currentLevel + 1;
-    startLevel(nextLevel);
-}
-
-
-document.querySelector('.skip-button').addEventListener('click', function() {
-    var storyOverlay = document.getElementById('story-overlay');
-    storyOverlay.classList.remove('active');
-    proceedToNextLevel(); // Proceed to Level 5 after skipping the story
-});
-
-
-var backgrounds = [
-    { id: 'bg1', url: 'bg1.webp' },
-    { id: 'bg2', url: 'bg2.webp' },
-    { id: 'bg3', url: 'bg3.webp' }
-];
-var currentBackgroundIndex = 0;
-
-function changeBackground(levelNumber) {
-    // Determine next background index based on level
-    let nextBackgroundIndex;
-    if (levelNumber === 3) {
-        nextBackgroundIndex = 1; // Switch to bg2
-    } else if (levelNumber === 5) {
-        nextBackgroundIndex = 2; // Switch to bg3
-    } else {
-        return; // No change for other levels
-    }
-
-    let currentBg = document.getElementById(backgrounds[currentBackgroundIndex].id);
-    let nextBg = document.getElementById(backgrounds[nextBackgroundIndex].id);
-
-    // Update next background image in case it's not set or needs updating
-    nextBg.style.backgroundImage = `url('${backgrounds[nextBackgroundIndex].url}')`;
-
-    // Initiate fade in/out
-    nextBg.style.display = 'block';
-    nextBg.style.opacity = 0;
-    setTimeout(() => {
-        nextBg.style.opacity = 1;
-        currentBg.style.opacity = 0;
-    }, 20); // Short delay to ensure CSS applies correctly
-
-    // Update current background index
-    currentBackgroundIndex = nextBackgroundIndex;
-}
-
-
-function positionDiamondMarkers() {
-    const totalLevels = 20;
-    const journeyBarWidth = document.getElementById('journey-bar-container').clientWidth;
-    const markers = document.querySelectorAll('.diamond-marker');
-    markers.forEach(marker => {
-        const level = parseInt(marker.getAttribute('data-level'), 10);
-        const percentage = ((level - 1) / (totalLevels - 1)) * 100;
-        marker.style.left = `calc(${percentage}% - 15px)`; // Adjust to center the marker on the exact percentage point
-    });
-}
-
-// Call this function on DOM load and any time the journey bar updates
-document.addEventListener('DOMContentLoaded', () => {
-    positionDiamondMarkers();
-    // Test by setting a default current level
-    animateMarkerOnReach(1); // Adjust based on actual game logic
-});
-
-function animateMarkerOnReach(currentLevel) {
-    const markers = document.querySelectorAll('.diamond-marker');
-    markers.forEach(marker => {
-        const level = parseInt(marker.getAttribute('data-level'), 10);
-        if (currentLevel >= level) {
-            marker.classList.add('reached');
-        } else {
-            marker.classList.remove('reached');
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    positionDiamondMarkers();
-    animateMarkerOnReach(1); // Test with a default value to see the effect
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    positionDiamondMarkers();
-    initializeGame();
-    initializeJourneyBar(); 
-    animateMarkerOnReach(0); // Initialize markers at start
-});
-
-
-
-document.body.addEventListener('touchmove', function(e) {
-    e.preventDefault(); // Prevents touch move actions
-}, { passive: false });
-
-function updateLevelAppearance(levelNumber) {
-    let newBackgroundUrl = '';
-    let newLevelTitle = '';
-    switch (levelNumber) {
-        case 3:
-            newBackgroundUrl = "url('bg2.webp')";
-            newLevelTitle = "Misty Mountains";
-            break;
-        case 5:
-            newBackgroundUrl = "url('bg3.webp')";
-            newLevelTitle = "Forgotten Forest";
-            break;
-        default:
-            return; // Exit if no changes are needed for other levels
-    }
-
-    if (newBackgroundUrl && newLevelTitle) {
-        document.body.style.backgroundImage = newBackgroundUrl;
-        document.getElementById('level-title').textContent = newLevelTitle;
-    }
-}
-
-function onLevelComplete(currentLevel) {
-    // Check if the current level is completed
-    if (levels[currentLevel].completed) {
-        const nextLevel = currentLevel + 1;
-
-
-
-
-        // Check if there's a specific action to be taken at the next level start
-        updateLevelAppearance(nextLevel);
-
-        // Additional logic to start the next level
-        startLevel(nextLevel);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    initializeGame();
-});
-
-function toggleOverlay() {
-    var overlay = document.getElementById('overlay');
-    overlay.classList.toggle('active');
-}
-
-function newGame() {
-    resetGame(); // Resets the game state
-    closeOverlay(); // Explicitly close the overlay
-    startLevel(1); // Starts the game at level 1
-
-    // Reset the background to bg1
-    document.getElementById('bg1').style.display = 'block';
-    document.getElementById('bg1').style.opacity = 1;
-    document.getElementById('bg2').style.display = 'none';
-    document.getElementById('bg2').style.opacity = 0;
-    document.getElementById('bg3').style.display = 'none';
-    document.getElementById('bg3').style.opacity = 0;
-
-    // Reset visibility of line containers
-    document.getElementById('line1').style.display = 'flex';
-    document.getElementById('line2').style.display = 'flex';
-    document.getElementById('line3').style.display = 'none';
-    document.getElementById('line4').style.display = 'none';
-
-    // Reset any other game settings or visual elements here
-}
-
-
-function closeOverlay() {
-    var overlay = document.getElementById('overlay');
-    overlay.classList.remove('active');
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if starting a new game
-    if (localStorage.getItem('startingNewGame') === 'true') {
-        // If starting a new game, ensure the menu is not shown
-        localStorage.removeItem('startingNewGame'); // Clean up flag to avoid affecting future loads
-    } else {
-        // If not flagged as a new game, show the menu by default
-        toggleOverlay(); // Function to manage showing the menu
-    }
-
-    initializeGame(); // Your existing initialization function
-});
-
-function openMenu() {
-    var overlay = document.getElementById('overlay');
-    overlay.classList.add('active');
-}
-
-function initializeJourneyBar() {
-    updateJourneyBar(0);  // Start with the bar at 0%
-}
-
-function resetGame() {
-    // Reset game variables and states
-    currentLevel = 1;
-    mistakesMade = false;
-    for (let level in levels) {
-        levels[level].guessedWords.clear();
-        levels[level].completed = false;
-    }
-
-    // Reset progress bar
-    updateProgressBar();
-
-    // Restart the game at level 1
-    startLevel(currentLevel);
-
-    // Deactivate all buttons except for level 1
-    const allButtons = document.querySelectorAll('.diamond-button');
-    allButtons.forEach((button, index) => {
-        if (index !== 0) {
-            button.classList.add('inactive');
-            button.classList.remove('active');
-            button.disabled = true;
-        } else {
-            button.classList.remove('inactive');
-            button.classList.add('active');
-            button.disabled = false;
-        }
-    });
-}
-
-function continueGame() {
-    // Hide the menu overlay
-    toggleOverlay();
-    // Resume the game from the current level
-    startLevel(currentLevel);
-}
-
-function updateJourneyBar(currentLevel) {
-    const totalLevels = 20;
-    const progress = ((currentLevel - 1) / (totalLevels - 1)) * 100;
-    const journeyBar = document.getElementById('journey-bar');
-    journeyBar.style.width = `${progress}%`;
-
-    animateMarkerOnReach(currentLevel);
-}
-
-    document.addEventListener('DOMContentLoaded', function() {
-        cacheDOMElements();
-        initializeGame();
-    });
-
-    function cacheDOMElements() {
-        hebrewOptionsDiv = document.getElementById('hebrew-options');
-        progressBar = document.getElementById('progress-bar');
-        levelTitle = document.getElementById('level-title');
-        englishWordDisplay = document.getElementById('english-word');
-    }
-
-    function initializeGame() {
-        startLevel(1);
-    }
-
-function startLevel(levelNumber) {
-    currentLevel = levelNumber;  // Set current level
-    updateJourneyBar(currentLevel);  // Update the Journey Bar to reflect the new level
-    changeBackground(currentLevel);    
-
-    levels[levelNumber].guessedWords.clear(); // Clear guessed words for the new level
-    levels[levelNumber].completed = false; // Reset the completion status
-    mistakesMade = false; // Reset mistakes tracking
-
-    // Check if the progress bar is paused at 100%
-    if (progressBar.classList.contains('pause')) {
-        // If the bar is paused at 100%, wait before resetting
-        setTimeout(() => {
-            progressBar.classList.remove('pause'); // Remove the pause class
-            updateProgressBar(0); // Reset the progress bar slowly
-        }, 50); // 5-second delay to allow the player to see the completed bar
-    } else {
-        updateProgressBar(0); // Reset immediately if not paused
-    }
-
-    // Load the first new word of the level
-    loadNewWord();
-
-    // Update access to levels based on progress
-    updateLevelAccess();
-
-    // Adjust display elements based on the new level number
-    const line1 = document.getElementById("line1");
-    const line2 = document.getElementById("line2");
-    const line3 = document.getElementById("line3");
-    const line4 = document.getElementById("line4");
-
-    // Adjust display of lines based on level number
-    if (levelNumber <= 10) {
-        line1.style.display = "flex";
-        line2.style.display = "flex";
-        line3.style.display = "none";
-        line4.style.display = "none";
-    } else if (levelNumber >= 11 && levelNumber <= 20) {
-        line1.style.display = "none";
-        line2.style.display = "none";
-        line3.style.display = "flex";
-        line4.style.display = "flex";
-    }
-
-    // Update the appearance for the new level (background, title, etc.)
-    updateLevelAppearance(levelNumber);
-}
-
-
-
-
-
-
-
-
-
-    function updateLevelAccess() {
-        const allButtons = document.querySelectorAll('.diamond-button');
-        allButtons.forEach((button, index) => {
-            if (index + 1 < currentLevel || levels[index + 1].completed) {
-                button.classList.remove('inactive');
-                button.disabled = false;
-            } else if (index + 1 === currentLevel) {
-                button.classList.add('active');
-                button.disabled = false;
-            } else {
-                button.classList.add('inactive');
-                button.disabled = true;
-            }
-        });
-    }
-
-
-    function loadNewWord() {
-        let level = levels[currentLevel];
-        let remainingWords = level.words.filter(word => !level.guessedWords.has(word));
-        if (remainingWords.length === 0) {
-            level.completed = true;
-            handleLevelCompletion();
-            return;
-        }
-        let englishWord = remainingWords[Math.floor(Math.random() * remainingWords.length)];
-        englishWordDisplay.textContent = englishWord;
-        generateHebrewOptions(englishWord);
-    }
-
-function handleLevelCompletion() {
-    // Ensure the progress bar shows 100% upon level completion
-    updateProgressBar(100, 0.3);  // Set progress bar to 100% with a quick transition
-
-    // Activate and animate the next level's button
-    const nextLevel = currentLevel + 1;
-    const nextLevelButton = document.querySelector(`.diamond-button[onclick="startLevel(${nextLevel})"]`);
-
-    if (nextLevelButton) {
-        nextLevelButton.classList.remove('inactive');
-        nextLevelButton.classList.add('active');
-        nextLevelButton.classList.add('pulsate');
-        nextLevelButton.disabled = false;
-        setTimeout(() => {
-            nextLevelButton.classList.remove('pulsate');  // End the pulsating effect after 1.8 seconds
-        }, 1800);
-    }
-
-    // Delay any transition to the next level by 1 second
-    setTimeout(() => {
-        if (currentLevel === 4) {
-            // Show the story overlay after completing level 4
-            showStoryOverlay();
-        } else if (currentLevel === 20) {
-            // Trigger end-of-game actions if this is the last level
-            let overlay = document.getElementById('transition-overlay');
-            overlay.style.display = 'block';
-            setTimeout(() => {
-                overlay.style.opacity = 1;  // Start the fade-out for the overlay
-            }, 100);
-
-            setTimeout(() => {
-                window.location.href = '';  // Redirect to the next unit or completion page
-            }, 500);  // Shorter wait for the fade-out to complete
-        } else {
-            // Continue to next level if not the last level and not after level 4
-            if (nextLevel <= Object.keys(levels).length) {
-                levels[currentLevel].completed = true;
-                updateLevelAccess();  // Update which levels are accessible
-                updateLevelAppearance(nextLevel);  // Update the appearance for the new level
-                startLevel(nextLevel);  // Start the next level
-            }
-        }
-    }, 1000);  // Delay before proceeding to next actions, ensuring users see the completion
-}
-
-function showStoryOverlay() {
-    var storyOverlay = document.getElementById('story-overlay');
-    storyOverlay.classList.add('active');
-}
-
-function hideStoryOverlay() {
-    var storyOverlay = document.getElementById('story-overlay');
-    // Delay removing the 'active' class until after the transition finishes
-    setTimeout(() => {
-        storyOverlay.classList.remove('active');
-    }, 1000); // This should match the duration of the opacity transition
-}
-
-
-function updateLevelAccess() {
-    const allButtons = document.querySelectorAll('.diamond-button');
-    allButtons.forEach((button, index) => {
-        if (index < currentLevel || levels[index + 1]?.completed) { // Use optional chaining to avoid undefined errors
-            button.classList.remove('inactive');
-            button.disabled = false;
-        } else {
-            button.classList.add('inactive');
-            button.disabled = true;
-        }
-    });
-}
-
-
-function updateProgressBar(completion = null, fillDuration = 0.3, emptyDuration = 1) {
-    const progressBar = document.getElementById('progress-bar');
-    let progressPercentage;
-
-    if (completion !== null) {
-        progressPercentage = completion;  // Directly use the completion value if provided
-    } else {
-        progressPercentage = (levels[currentLevel].guessedWords.size / levels[currentLevel].words.length) * 100;
-    }
-
-    console.log("Updating progress bar to: " + progressPercentage + "%");
-
-    progressBar.style.transition = `width ${fillDuration}s ease-out`;
-    progressBar.style.width = progressPercentage + '%';
-
-    // Only schedule the progress bar to empty if it hits 100% and the level is considered 'complete'
-    if (progressPercentage >= 100 && levels[currentLevel].completed) {
-        console.log("Progress bar reached 100%. Preparing to empty after delay.");
-        setTimeout(() => {
-            // Check again if the level is still completed to avoid emptying during ongoing level play
-            if (levels[currentLevel].completed) {
-                progressBar.style.transition = `width ${emptyDuration}s ease-out`;
-                progressBar.style.width = '0%';  // Reset the progress bar to 0%
-            }
-        }, 5000); // Delay of 5000 milliseconds (5 seconds) before starting to empty
-    }
-}
-
-
-
-
-
-    function generateHebrewOptions(englishWord) {
-        let level = levels[currentLevel];
-        let correctHebrew = level.translations[level.words.indexOf(englishWord)];
-        let options = new Set([correctHebrew]);
-        while (options.size < 3) {
-            let randomWord = level.translations[Math.floor(Math.random() * level.translations.length)];
-            options.add(randomWord);
-        }
-        let optionsArray = Array.from(options);
-        shuffleArray(optionsArray);
-        hebrewOptionsDiv.innerHTML = '';
-        optionsArray.forEach(option => {
-            let button = document.createElement('button');
-            button.textContent = option;
-            button.className = 'choice-button';
-            button.onclick = () => checkAnswer(englishWord, option);
-            hebrewOptionsDiv.appendChild(button);
-        });
-    }
-
-function checkAnswer(englishWord, hebrewWord) {
-    let correctHebrew = levels[currentLevel].translations[levels[currentLevel].words.indexOf(englishWord)];
-    if (hebrewWord === correctHebrew) {
-        levels[currentLevel].guessedWords.add(englishWord);
-        if (levels[currentLevel].guessedWords.size === levels[currentLevel].words.length) {
-            // All words guessed correctly
-            handleLevelCompletion();
-        } else {
-            loadNewWord();
-        }
-    } else {
-        mistakesMade = true;
-        startLevel(currentLevel); // Restart the level on an incorrect guess
-    }
-    // Always update progress bar after each answer attempt
-    updateProgressBar();
-}
-
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
-
-function updateLevelAccess() {
-    const allButtons = document.querySelectorAll('.diamond-button');
-    allButtons.forEach((button, index) => {
-        if (index < currentLevel || levels[index + 1]?.completed) {
-            button.classList.remove('inactive');
-            button.disabled = false;
-        } else {
-            button.classList.add('inactive');
-            button.disabled = true;
-        }
-    });
-}
-
-
-  let currentLevel = 1;
-    let mistakesMade = false;
-
-</script>
+<div class="content-container">
+	<div class="game-screen">
+		<div class="level-title" id="level-title">The Valley</div>
+		<div class="word-display" id="english-word"></div>
+		<div id="hebrew-options">
+			<!-- Hebrew choice buttons will be generated here -->
+		</div>
+		<div class="progress-bar-container">
+			<div class="progress-bar" id="progress-bar"></div>
+		</div>
+		<div class="buttons-container1" id="line1">
+			<button class="diamond-button active" onclick="startLevel(1)">1</button>
+			<button class="diamond-button inactive" onclick="startLevel(2)">2</button>
+			<button class="diamond-button inactive" onclick="startLevel(3)">3</button>
+			<button class="diamond-button inactive" onclick="startLevel(4)">4</button>
+			<button class="diamond-button inactive" onclick="startLevel(5)">5</button>
+		</div>
+		<div class="buttons-container2" id="line2">
+			<button class="diamond-button inactive" onclick="startLevel(6)">6</button>
+			<button class="diamond-button inactive" onclick="startLevel(7)">7</button>
+			<button class="diamond-button inactive" onclick="startLevel(8)">8</button>
+			<button class="diamond-button inactive" onclick="startLevel(9)">9</button>
+			<button class="diamond-button inactive" onclick="startLevel(10)">10</button>
+		</div>
+		<div class="buttons-container3" hidden id="line3">
+			<button class="diamond-button inactive" onclick="startLevel(11)">11</button>
+			<button class="diamond-button inactive" onclick="startLevel(12)">12</button>
+			<button class="diamond-button inactive" onclick="startLevel(13)">13</button>
+			<button class="diamond-button inactive" onclick="startLevel(14)">14</button>
+			<button class="diamond-button inactive" onclick="startLevel(15)">15</button>
+		</div>
+		<div class="buttons-container4" hidden id="line4">
+			<button class="diamond-button inactive" onclick="startLevel(16)">16</button>
+			<button class="diamond-button inactive" onclick="startLevel(17)">17</button>
+			<button class="diamond-button inactive" onclick="startLevel(18)">18</button>
+			<button class="diamond-button inactive" onclick="startLevel(19)">19</button>
+			<button class="diamond-button inactive" onclick="startLevel(20)">20</button>
+		</div>
+		
+		<div class="progress-bar-container" id="journey-bar-container">
+			<div class="progress-bar" id="journey-bar"></div>
+			<!-- Diamond markers for milestones -->
+			<div class="diamond-marker" data-level="5"></div>
+			<div class="diamond-marker" data-level="10"></div>
+			<div class="diamond-marker" data-level="15"></div>
+			<div class="diamond-marker" data-level="20"></div>
+		</div>
+		
+		<div id="story-overlay" class="overlay">
+			<div class="overlay-content">
+				<h1>Story Time!</h1>
+				<p id="story-text">Here's the captivating story that unfolds your game's next chapter...</p>
+				<button class="skip-button">Skip Story</button>
+			</div>
+		</div>
+		
+		<div class="background-container">
+			<div id="bg1" class="background" style="background-image: url('bg1.webp');"></div>
+			<div id="bg2" class="background" style="background-image: url('bg2.webp'); display: none;"></div>
+			<div id="bg3" class="background" style="background-image: url('bg3.webp'); display: none;"></div>
+			<div id="bg4" class="background" style="background-image: url('story-bg1.webp'); display: none;"></div>
+			<div id="bg5" class="background" style="background-image: url('menu-bg.webp'); display: none;"></div>
+			
+			
+			<div class="container">
+				<button class="menu-button" onclick="toggleOverlay()">Menu</button>
+			</div>
+			
+			
+			<div class="overlay" id="overlay">
+				<div class="overlay-content">
+					<div class="overlay-container1" id="line1">
+						<button class="settings-button" onclick="newGame()">New Game</button>
+						<button class="settings-button" onclick="continueGame()">Continue Game</button>
+						<button class="settings-button" onclick="openSettings()">Settings</button>
+						<button class="settings-button" onclick="showAbout()">About</button>
+						<div class="dropdown">
+							<button id="dropdownMenuButton" class="settings-button">Practice</button>
+							<div id="dropdownContent" class="dropdown-content">
+								<button id="vocab1Button" class="settings-button"
+										onclick="selectOption('Alpha', 'vocab1Button')">Foods</a>
+									<button id="vocab2Button" class="settings-button"
+											onclick="selectOption('Beta', 'vocab2Button')">Band1/1</a>
+										<button id="vocab3Button" class="settings-button"
+												onclick="selectOption('Gamma', 'vocab3Button')">Band1/2</a>
+							</div>
+						</div>
+						
+						
+						<span class="close-button" onclick="toggleOverlay()">&times;</span>
+					</div>
+				</div>
+				
+				
+				<div id="transition-overlay"
+					 style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 2000;"></div>
+				
+				<meta name="viewport"
+					  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+				
+				
+				<script>
+					
+					function selectOption(value, vocabId) {
+						document.getElementById('dropdownMenuButton').textContent = value;
+						someFunctionAssociatedWithVocabButtons(vocabId); // Trigger vocab related function
+					}
+					
+					// Assuming someFunctionAssociatedWithVocabButtons exists
+					function someFunctionAssociatedWithVocabButtons(vocabId) {
+						console.log('Function related to', vocabId, 'triggered.');
+					}
+					
+					// No need for the previous event listener to hide dropdowns on window click since dropdown now works with hover.
+					
+					
+					// Event listener to toggle the dropdown content
+					document.getElementById('dropdownMenuButton').addEventListener('click', function () {
+						var content = document.getElementById('dropdownContent');
+						if (content.style.display === 'block') {
+							content.style.display = 'none';
+						} else {
+							content.style.display = 'block';
+						}
+					});
+					
+					
+					document.getElementById('vocab1Button').addEventListener('click', function () {
+						loadScript('vocab1.js');
+						
+					});
+					
+					document.getElementById('vocab2Button').addEventListener('click', function () {
+						loadScript('vocab2.js');
+						
+					});
+					
+					document.getElementById('vocab3Button').addEventListener('click', function () {
+						loadScript('vocab3.js');
+						
+					});
+					
+					
+					function loadScript(scriptName) {
+						var script = document.createElement('script');
+						script.src = scriptName;
+						document.body.appendChild(script);
+					}
+					
+					
+					function proceedToNextLevel() {
+						var nextLevel = currentLevel + 1;
+						startLevel(nextLevel);
+					}
+					
+					
+					document.querySelector('.skip-button').addEventListener('click', function () {
+						var storyOverlay = document.getElementById('story-overlay');
+						storyOverlay.classList.remove('active');
+						proceedToNextLevel(); // Proceed to Level 5 after skipping the story
+					});
+					
+					
+					var backgrounds = [
+						{id: 'bg1', url: 'bg1.webp'},
+						{id: 'bg2', url: 'bg2.webp'},
+						{id: 'bg3', url: 'bg3.webp'},
+						{id: 'bg4', url: 'story-bg1.webp'},
+						{id: 'bg5', url: 'menu-bg.webp'}
+					];
+					var currentBackgroundIndex = 0;
+					
+					function changeBackground(levelNumber) {
+						// Determine next background index based on level
+						let nextBackgroundIndex;
+						switch (levelNumber) {
+							case 3:
+								nextBackgroundIndex = 1;
+								break;
+							case 5:
+								nextBackgroundIndex = 2;
+								break;
+							case 9:
+								nextBackgroundIndex = 3;
+								break;
+							case 13:
+								nextBackgroundIndex = 4;
+								break;
+							// case 17:
+							// 	nextBackgroundIndex = 5;
+							// 	break;
+							default:
+								return;
+						}
+						
+						let currentBg = document.getElementById(backgrounds[currentBackgroundIndex].id);
+						let nextBg = document.getElementById(backgrounds[nextBackgroundIndex].id);
+						
+						// Update next background image in case it's not set or needs updating
+						nextBg.style.backgroundImage = `url('${backgrounds[nextBackgroundIndex].url}')`;
+						
+						// Initiate fade in/out
+						nextBg.style.display = 'block';
+						nextBg.style.opacity = 0;
+						setTimeout(() => {
+							nextBg.style.opacity = 1;
+							currentBg.style.opacity = 0;
+						}, 20); // Short delay to ensure CSS applies correctly
+						
+						// Update current background index
+						currentBackgroundIndex = nextBackgroundIndex;
+					}
+					
+					
+					function positionDiamondMarkers() {
+						const totalLevels = 20;
+						const journeyBarWidth = document.getElementById('journey-bar-container').clientWidth;
+						const markers = document.querySelectorAll('.diamond-marker');
+						markers.forEach(marker => {
+							const level = parseInt(marker.getAttribute('data-level'), 10);
+							const percentage = ((level - 1) / (totalLevels - 1)) * 100;
+							marker.style.left = `calc(${percentage}% - 15px)`; // Adjust to center the marker on the exact percentage point
+						});
+					}
+					
+					// Call this function on DOM load and any time the journey bar updates
+					document.addEventListener('DOMContentLoaded', () => {
+						positionDiamondMarkers();
+						// Test by setting a default current level
+						animateMarkerOnReach(1); // Adjust based on actual game logic
+					});
+					
+					function animateMarkerOnReach(currentLevel) {
+						const markers = document.querySelectorAll('.diamond-marker');
+						markers.forEach(marker => {
+							const level = parseInt(marker.getAttribute('data-level'), 10);
+							if (currentLevel >= level) {
+								marker.classList.add('reached');
+							} else {
+								marker.classList.remove('reached');
+							}
+						});
+					}
+					
+					document.addEventListener('DOMContentLoaded', () => {
+						positionDiamondMarkers();
+						animateMarkerOnReach(1); // Test with a default value to see the effect
+					});
+					
+					document.addEventListener('DOMContentLoaded', () => {
+						positionDiamondMarkers();
+						initializeGame();
+						initializeJourneyBar();
+						animateMarkerOnReach(0); // Initialize markers at start
+					});
+					
+					
+					document.body.addEventListener('touchmove', function (e) {
+						e.preventDefault(); // Prevents touch move actions
+					}, {passive: false});
+					
+					function updateLevelAppearance(levelNumber) {
+						let newBackgroundUrl = '';
+						let newLevelTitle = '';
+						switch (levelNumber) {
+							case 3:
+								newBackgroundUrl = "url('bg2.webp')";
+								newLevelTitle = "Misty Mountains";
+								break;
+							case 5:
+								newBackgroundUrl = "url('bg3.webp')";
+								newLevelTitle = "Forgotten Forest";
+								break;
+							default:
+								return; // Exit if no changes are needed for other levels
+						}
+						
+						if (newBackgroundUrl && newLevelTitle) {
+							document.body.style.backgroundImage = newBackgroundUrl;
+							document.getElementById('level-title').textContent = newLevelTitle;
+						}
+					}
+					
+					function onLevelComplete(currentLevel) {
+						// Check if the current level is completed
+						if (levels[currentLevel].completed) {
+							const nextLevel = currentLevel + 1;
+							
+							
+							// Check if there's a specific action to be taken at the next level start
+							updateLevelAppearance(nextLevel);
+							
+							// Additional logic to start the next level
+							startLevel(nextLevel);
+						}
+					}
+					
+					document.addEventListener('DOMContentLoaded', function () {
+						initializeGame();
+					});
+					
+					function toggleOverlay() {
+						var overlay = document.getElementById('overlay');
+						overlay.classList.toggle('active');
+					}
+					
+					function newGame() {
+						resetGame(); // Resets the game state
+						closeOverlay(); // Explicitly close the overlay
+						startLevel(1); // Starts the game at level 1
+						
+						// Reset the background to bg1
+						document.getElementById('bg1').style.display = 'block';
+						document.getElementById('bg1').style.opacity = 1;
+						document.getElementById('bg2').style.display = 'none';
+						document.getElementById('bg2').style.opacity = 0;
+						document.getElementById('bg3').style.display = 'none';
+						document.getElementById('bg3').style.opacity = 0;
+						document.getElementById('bg4').style.display = 'none';
+						document.getElementById('bg4').style.opacity = 0;
+						document.getElementById('bg5').style.display = 'none';
+						document.getElementById('bg5').style.opacity = 0;
+						
+						// Reset visibility of line containers
+						document.getElementById('line1').style.display = 'flex';
+						document.getElementById('line2').style.display = 'flex';
+						document.getElementById('line3').style.display = 'none';
+						document.getElementById('line4').style.display = 'none';
+						
+						// Reset any other game settings or visual elements here
+					}
+					
+					
+					function closeOverlay() {
+						var overlay = document.getElementById('overlay');
+						overlay.classList.remove('active');
+					}
+					
+					
+					document.addEventListener('DOMContentLoaded', function () {
+						// Check if starting a new game
+						if (localStorage.getItem('startingNewGame') === 'true') {
+							// If starting a new game, ensure the menu is not shown
+							localStorage.removeItem('startingNewGame'); // Clean up flag to avoid affecting future loads
+						} else {
+							// If not flagged as a new game, show the menu by default
+							toggleOverlay(); // Function to manage showing the menu
+						}
+						
+						initializeGame(); // Your existing initialization function
+					});
+					
+					function openMenu() {
+						var overlay = document.getElementById('overlay');
+						overlay.classList.add('active');
+					}
+					
+					function initializeJourneyBar() {
+						updateJourneyBar(0);  // Start with the bar at 0%
+					}
+					
+					function resetGame() {
+						// Reset game variables and states
+						currentLevel = 1;
+						mistakesMade = false;
+						for (let level in levels) {
+							levels[level].guessedWords.clear();
+							levels[level].completed = false;
+						}
+						
+						// Reset progress bar
+						updateProgressBar();
+						
+						// Restart the game at level 1
+						startLevel(currentLevel);
+						
+						// Deactivate all buttons except for level 1
+						const allButtons = document.querySelectorAll('.diamond-button');
+						allButtons.forEach((button, index) => {
+							if (index !== 0) {
+								button.classList.add('inactive');
+								button.classList.remove('active');
+								button.disabled = true;
+							} else {
+								button.classList.remove('inactive');
+								button.classList.add('active');
+								button.disabled = false;
+							}
+						});
+					}
+					
+					function continueGame() {
+						// Hide the menu overlay
+						toggleOverlay();
+						// Resume the game from the current level
+						startLevel(currentLevel);
+					}
+					
+					function updateJourneyBar(currentLevel) {
+						const totalLevels = 20;
+						const progress = ((currentLevel - 1) / (totalLevels - 1)) * 100;
+						const journeyBar = document.getElementById('journey-bar');
+						journeyBar.style.width = `${progress}%`;
+						
+						animateMarkerOnReach(currentLevel);
+					}
+					
+					document.addEventListener('DOMContentLoaded', function () {
+						cacheDOMElements();
+						initializeGame();
+					});
+					
+					function cacheDOMElements() {
+						hebrewOptionsDiv = document.getElementById('hebrew-options');
+						progressBar = document.getElementById('progress-bar');
+						levelTitle = document.getElementById('level-title');
+						englishWordDisplay = document.getElementById('english-word');
+					}
+					
+					function initializeGame() {
+						startLevel(1);
+					}
+					
+					function startLevel(levelNumber) {
+						if (highestLevel < currentLevel) {
+							highestLevel = currentLevel;
+						}
+						currentLevel = levelNumber;  // Set current level
+						updateJourneyBar(currentLevel);  // Update the Journey Bar to reflect the new level
+						changeBackground(currentLevel);
+						
+						levels[levelNumber].guessedWords.clear(); // Clear guessed words for the new level
+						levels[levelNumber].completed = false; // Reset the completion status
+						mistakesMade = false; // Reset mistakes tracking
+						
+						// Check if the progress bar is paused at 100%
+						if (progressBar.classList.contains('pause')) {
+							// If the bar is paused at 100%, wait before resetting
+							setTimeout(() => {
+								progressBar.classList.remove('pause'); // Remove the pause class
+								updateProgressBar(0); // Reset the progress bar slowly
+							}, 50); // 5-second delay to allow the player to see the completed bar
+						} else {
+							updateProgressBar(0); // Reset immediately if not paused
+						}
+						
+						// Load the first new word of the level
+						loadNewWord();
+						
+						// Update access to levels based on progress
+						updateLevelAccess();
+						
+						// Adjust display elements based on the new level number
+						const line1 = document.getElementById("line1");
+						const line2 = document.getElementById("line2");
+						const line3 = document.getElementById("line3");
+						const line4 = document.getElementById("line4");
+						
+						// Adjust display of lines based on level number
+						if (levelNumber <= 10) {
+							line1.style.display = "flex";
+							line2.style.display = "flex";
+							line3.style.display = "none";
+							line4.style.display = "none";
+						} else if (levelNumber >= 11 && levelNumber <= 20) {
+							line1.style.display = "none";
+							line2.style.display = "none";
+							line3.style.display = "flex";
+							line4.style.display = "flex";
+						}
+						
+						// Update the appearance for the new level (background, title, etc.)
+						updateLevelAppearance(levelNumber);
+					}
+					
+					
+					function updateLevelAccess() {
+						const allButtons = document.querySelectorAll('.diamond-button');
+						allButtons.forEach((button, index) => {
+							if (index + 1 <= currentLevel || levels[index + 1].completed || currentLevel < highestLevel) {
+								button.classList.remove('inactive');
+								button.disabled = false;
+							} else {
+								button.classList.add('inactive');
+								button.disabled = true;
+							}
+						});
+					}
+					
+					
+					function loadNewWord() {
+						let level = levels[currentLevel];
+						let remainingWords = level.words.filter(word => !level.guessedWords.has(word));
+						if (remainingWords.length === 0) {
+							level.completed = true;
+							handleLevelCompletion();
+							return;
+						}
+						let englishWord = remainingWords[Math.floor(Math.random() * remainingWords.length)];
+						englishWordDisplay.textContent = englishWord;
+						generateHebrewOptions(englishWord);
+					}
+					
+					function handleLevelCompletion() {
+						// Ensure the progress bar shows 100% upon level completion
+						updateProgressBar(100, 0.3);  // Set progress bar to 100% with a quick transition
+						
+						// Activate and animate the next level's button
+						const nextLevel = currentLevel + 1;
+						const nextLevelButton = document.querySelector(`.diamond-button[onclick="startLevel(${nextLevel})"]`);
+						
+						if (nextLevelButton) {
+							nextLevelButton.classList.remove('inactive');
+							nextLevelButton.classList.add('active');
+							nextLevelButton.classList.add('pulsate');
+							nextLevelButton.disabled = false;
+							setTimeout(() => {
+								nextLevelButton.classList.remove('pulsate');  // End the pulsating effect after 1.8 seconds
+							}, 1800);
+						}
+						
+						// Delay any transition to the next level by 1 second
+						setTimeout(() => {
+							if (currentLevel === 4) {
+								// Show the story overlay after completing level 4
+								showStoryOverlay();
+							} else if (currentLevel === 20) {
+								// Trigger end-of-game actions if this is the last level
+								let overlay = document.getElementById('transition-overlay');
+								overlay.style.display = 'block';
+								setTimeout(() => {
+									overlay.style.opacity = 1;  // Start the fade-out for the overlay
+								}, 100);
+								
+								setTimeout(() => {
+									window.location.href = '';  // Redirect to the next unit or completion page
+								}, 500);  // Shorter wait for the fade-out to complete
+							} else {
+								// Continue to next level if not the last level and not after level 4
+								if (nextLevel <= Object.keys(levels).length) {
+									levels[currentLevel].completed = true;
+									updateLevelAccess();  // Update which levels are accessible
+									updateLevelAppearance(nextLevel);  // Update the appearance for the new level
+									startLevel(nextLevel);  // Start the next level
+								}
+							}
+						}, 1000);  // Delay before proceeding to next actions, ensuring users see the completion
+					}
+					
+					function showStoryOverlay() {
+						var storyOverlay = document.getElementById('story-overlay');
+						storyOverlay.classList.add('active');
+					}
+					
+					function hideStoryOverlay() {
+						var storyOverlay = document.getElementById('story-overlay');
+						// Delay removing the 'active' class until after the transition finishes
+						setTimeout(() => {
+							storyOverlay.classList.remove('active');
+						}, 1000); // This should match the duration of the opacity transition
+					}
+					
+					
+					function updateProgressBar(completion = null, fillDuration = 0.3, emptyDuration = 1) {
+						const progressBar = document.getElementById('progress-bar');
+						let progressPercentage;
+						
+						if (completion !== null) {
+							progressPercentage = completion;  // Directly use the completion value if provided
+						} else {
+							progressPercentage = (levels[currentLevel].guessedWords.size / levels[currentLevel].words.length) * 100;
+						}
+						
+						console.log("Updating progress bar to: " + progressPercentage + "%");
+						
+						progressBar.style.transition = `width ${fillDuration}s ease-out`;
+						progressBar.style.width = progressPercentage + '%';
+						
+						// Only schedule the progress bar to empty if it hits 100% and the level is considered 'complete'
+						if (progressPercentage >= 100 && levels[currentLevel].completed) {
+							console.log("Progress bar reached 100%. Preparing to empty after delay.");
+							setTimeout(() => {
+								// Check again if the level is still completed to avoid emptying during ongoing level play
+								if (levels[currentLevel].completed) {
+									progressBar.style.transition = `width ${emptyDuration}s ease-out`;
+									progressBar.style.width = '0%';  // Reset the progress bar to 0%
+								}
+							}, 5000); // Delay of 5000 milliseconds (5 seconds) before starting to empty
+						}
+					}
+					
+					
+					function generateHebrewOptions(englishWord) {
+						let level = levels[currentLevel];
+						let correctHebrew = level.translations[level.words.indexOf(englishWord)];
+						let options = new Set([correctHebrew]);
+						while (options.size < 3) {
+							let randomWord = level.translations[Math.floor(Math.random() * level.translations.length)];
+							options.add(randomWord);
+						}
+						let optionsArray = Array.from(options);
+						shuffleArray(optionsArray);
+						hebrewOptionsDiv.innerHTML = '';
+						optionsArray.forEach(option => {
+							let button = document.createElement('button');
+							button.textContent = option;
+							button.className = 'choice-button';
+							button.onclick = () => checkAnswer(englishWord, option);
+							hebrewOptionsDiv.appendChild(button);
+						});
+					}
+					
+					function checkAnswer(englishWord, hebrewWord) {
+						let correctHebrew = levels[currentLevel].translations[levels[currentLevel].words.indexOf(englishWord)];
+						if (hebrewWord === correctHebrew) {
+							levels[currentLevel].guessedWords.add(englishWord);
+							if (levels[currentLevel].guessedWords.size === levels[currentLevel].words.length) {
+								// All words guessed correctly
+								handleLevelCompletion();
+							} else {
+								loadNewWord();
+							}
+						} else {
+							mistakesMade = true;
+							startLevel(currentLevel); // Restart the level on an incorrect guess
+						}
+						// Always update progress bar after each answer attempt
+						updateProgressBar();
+					}
+					
+					
+					function shuffleArray(array) {
+						for (let i = array.length - 1; i > 0; i--) {
+							let j = Math.floor(Math.random() * (i + 1));
+							[array[i], array[j]] = [array[j], array[i]];
+						}
+					}
+					
+					
+					let currentLevel = 1;
+					let highestLevel = 1;
+					let mistakesMade = false;
+				
+				</script>
 
 </body>
 </html>
